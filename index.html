@@ -1,149 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Untitled</title>
-    <link rel="stylesheet" href="./style.css">
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TON DeFi Staking</title>
-    
-    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TON Stake Pro | Decentralized Staking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="bg-layer">
-        <svg class="ton-bg-logo" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M120 240C186.274 240 240 186.274 240 120C240 53.7258 186.274 0 120 0C53.7258 0 0 53.7258 0 120C0 186.274 53.7258 240 120 240Z" fill="#0098EA" fill-opacity="0.05"/>
-            <path d="M136.667 61.6667L68.3333 93.3334L110 115L131.667 156.667L163.333 88.3334L136.667 61.6667Z" fill="white" fill-opacity="0.05"/>
-        </svg>
+    <div class="ton-bg-wrap">
+        <img src="https://ton.org/download/ton_symbol.png" class="rotating-logo" alt="TON">
     </div>
 
-    <div class="main-wrapper">
-        
-        <nav class="glass-nav">
-            <div class="logo">
-                <i class="fa-brands fa-telegram telegram-blue"></i>
-                <span>TON<span class="highlight">Stake</span></span>
+    <div class="app-shell">
+        <nav class="nav-bar">
+            <div class="brand">
+                <img src="https://ton.org/download/ton_symbol.png" width="30">
+                <span>TON<span class="blue">STAKE</span></span>
             </div>
             <div id="ton-connect"></div>
         </nav>
 
-        <div class="tab-container">
-            <button class="tab-btn active" onclick="showSection('dashboard')">Dashboard</button>
-            <button class="tab-btn" onclick="showSection('whitepaper')">Whitepaper</button>
+        <div class="tab-manager">
+            <button class="t-btn active" onclick="tab('home')">Staking</button>
+            <button class="t-btn" onclick="tab('paper')">Whitepaper</button>
         </div>
 
-        <section id="dashboard" class="animate-fade-in">
-            
-            <div class="card premium-card text-center">
-                <p class="label">Unclaimed Rewards</p>
-                <div class="reward-box">
-                    <span id="live-reward">0.000000</span> <span class="currency">TON</span>
-                </div>
+        <section id="home" class="view">
+            <div class="hero-card">
+                <p>Profit Pool (10% APY)</p>
+                <h1 id="reward-counter">0.000000</h1>
                 <div class="badge-row">
-                    <span class="badge active-badge">● Live APY 10%</span>
-                    <span class="badge time-badge">Auto-Compounding</span>
+                    <span class="b-green">Live Tracking</span>
+                    <span class="b-blue">Audit Verified</span>
                 </div>
             </div>
 
-            <div class="stats-row">
-                <div class="stat-card">
-                    <i class="fa-solid fa-wallet icon-muted"></i>
+            <div class="balance-grid">
+                <div class="b-box">
                     <p>Wallet Balance</p>
-                    <h3 id="wallet-balance">--</h3>
+                    <h3 id="user-balance">0.00 TON</h3>
                 </div>
-                <div class="stat-card">
-                    <i class="fa-solid fa-layer-group icon-muted"></i>
-                    <p>Total Staked</p>
-                    <h3 id="user-staked">0.00 TON</h3>
+                <div class="b-box">
+                    <p>My Staked</p>
+                    <h3 id="staked-amount">0.00 TON</h3>
                 </div>
             </div>
 
-            <div class="card action-card">
-                <div class="tabs-small">
-                    <button class="action-tab active" onclick="setMode('deposit')">Deposit</button>
-                    <button class="action-tab" onclick="setMode('withdraw')">Withdraw</button>
+            <div class="action-card">
+                <h3>Stake your TON</h3>
+                <div class="input-area">
+                    <input type="number" id="stake-input" placeholder="Min 1.2 TON">
+                    <button onclick="deposit()" class="main-btn">Stake Now</button>
                 </div>
-
-                <div id="deposit-view">
-                    <div class="input-group">
-                        <input type="number" id="deposit-amount" placeholder="Min 1.2 TON">
-                        <span class="max-btn">TON</span>
-                    </div>
-                    <button onclick="deposit()" class="btn-primary glow-btn">
-                        Stake Now <i class="fa-solid fa-bolt"></i>
-                    </button>
-                </div>
-
-                <div id="withdraw-view" style="display: none;">
-                    <div class="info-box">
-                        <p>Available to Claim:</p>
-                        <h2 id="withdraw-preview">0.00 TON</h2>
-                    </div>
-                    <button onclick="withdraw()" class="btn-secondary">
-                        Claim & Withdraw All
-                    </button>
-                </div>
+                <button onclick="withdraw()" class="sec-btn">Claim & Withdraw All</button>
             </div>
         </section>
 
-        <section id="whitepaper" class="animate-fade-in hidden">
-            <div class="card doc-card">
-                <h1>📑 Technical Whitepaper</h1>
-                <p class="version">Version 2.0 | Updated Feb 2026</p>
+        <section id="paper" class="view hidden">
+            <div class="paper-card">
+                <h2>Technical Whitepaper v2.0</h2>
                 <hr>
-                
-                <h3>1. Executive Summary</h3>
-                <p>TONStake is a decentralized liquidity protocol built on The Open Network (TON). It enables users to earn passive income through validator delegation mechanics, offering a stable 10% APY.</p>
-
-                <h3>2. Tokenomics</h3>
-                <ul>
-                    <li><strong>Network:</strong> TON Blockchain (Testnet)</li>
-                    <li><strong>Contract Type:</strong> High-Yield Staking Pool</li>
-                    <li><strong>Fee Structure:</strong> 0% Deposit Fee, 0.05 TON Gas Fee.</li>
-                </ul>
-
-                <h3>3. Security Architecture</h3>
-                <p>The smart contract utilizes <code>Tact</code> language for type safety. It includes emergency withdrawal functions controlled by a multi-sig admin wallet to prevent liquidity locks.</p>
+                <p>The TON Stake protocol is a smart-contract driven yield optimizer. It ensures 100% liquidity through automated market makers on The Open Network.</p>
+                <h4>Security:</h4>
+                <p>Contract address is verified on TONViewer. Administrative keys are held in multi-sig cold storage.</p>
             </div>
         </section>
 
-        <section class="partners-section">
-            <p>TRUSTED BY INDUSTRY LEADERS</p>
-            <div class="partners-grid">
-                <div class="partner"><i class="fa-brands fa-bitcoin"></i> Binance</div>
-                <div class="partner"><i class="fa-solid fa-diamond"></i> TON Foundation</div>
-                <div class="partner"><i class="fa-brands fa-telegram"></i> Telegram</div>
-                <div class="partner">OKX Web3</div>
+        <div class="partners">
+            <p>SUPPORTED BY</p>
+            <div class="p-list">
+                <span><i class="fa-brands fa-bitcoin"></i> BINANCE</span>
+                <span><i class="fa-brands fa-telegram"></i> TELEGRAM</span>
+                <span>OKX WEB3</span>
+                <span>TON FOUNDATION</span>
             </div>
-        </section>
+        </div>
 
         <footer>
-            <p>© 2026 TON Stake Protocol. All rights reserved.</p>
-            <a href="admin.html" class="admin-link">Admin Access</a>
+            <p>© 2026 TON STAKE PROTOCOL • <a href="admin.html" style="color:#222">Admin</a></p>
         </footer>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html>
-    <script  src="./script.js"></script>
-
-  </body>
-  
-</html>
+                                                                                                                       </html>
+                                                                                                                       
