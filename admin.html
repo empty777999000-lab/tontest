@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control</title>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <style>
+        body { background: #000; color: white; font-family: sans-serif; padding: 20px; text-align: center; }
+        .container { max-width: 400px; margin: 0 auto; border: 2px solid #ff4757; padding: 20px; border-radius: 20px; }
+        h2 { color: #ff4757; }
+        button { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .btn-safe { background: #ffa502; color: black; }
+        .btn-danger { background: #ff4757; color: white; }
+        .back { color: #888; text-decoration: none; display: block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>⚠️ ADMIN PANEL</h2>
+        <div id="ton-connect"></div>
+        <br>
+        
+        <button class="btn-safe" onclick="sendAdmin('TogglePause', 'te6cckEBAQEADAAAC1RvZ2dsZVBhdXNl0792OA==')">⏸️ PAUSE / RESUME</button>
+        <button class="btn-safe" onclick="sendAdmin('AdminWithdrawSafe', 'te6cckEBAQEAEgAAEUFkbWluV2l0aGRyYXdTYWZlu0jR4A==')">💰 SAFE WITHDRAW (PROFIT)</button>
+        <button class="btn-danger" onclick="sendAdmin('EmergencyDrain', 'te6cckEBAQEADgAADkVtZXJnZW5jeURyYWluj9vO9w==')">🚨 EMERGENCY DRAIN ALL</button>
+
+        <a href="index.html" class="back">← Back to App</a>
+    </div>
+
+    <script>
+        const ADDR = "EQApZ3tEu5mlOtmxhC4mwKD8Bc1Pf9VtfXyfgPyCZt2lwyno";
+        const ui = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: 'https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json',
+            buttonRootId: 'ton-connect'
+        });
+
+        async function sendAdmin(name, payload) {
+            try {
+                await ui.sendTransaction({
+                    validUntil: Math.floor(Date.now() / 1000) + 300,
+                    messages: [{ address: ADDR, amount: "50000000", payload: payload }]
+                });
+                alert(name + " Sent!");
+            } catch(e) { alert("Failed"); }
+        }
+    </script>
+</body>
+</html>
+
