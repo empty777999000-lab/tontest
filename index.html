@@ -3,90 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TON Stake Pro | Decentralized Staking</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>TON Pro Staking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="ton-bg-wrap">
-        <img src="https://ton.org/download/ton_symbol.png" class="rotating-logo" alt="TON">
+    <div class="bg-container">
+        <img src="https://ton.org/download/ton_symbol.png" class="spinning-ton" alt="TON">
     </div>
 
-    <div class="app-shell">
-        <nav class="nav-bar">
+    <div class="main-container">
+        <nav class="glass-header">
             <div class="brand">
-                <img src="https://ton.org/download/ton_symbol.png" width="30">
-                <span>TON<span class="blue">STAKE</span></span>
+                <img src="https://ton.org/download/ton_symbol.png" width="28">
+                <span>TON<span class="accent">STAKE</span></span>
             </div>
             <div id="ton-connect"></div>
         </nav>
 
-        <div class="tab-manager">
-            <button class="t-btn active" onclick="tab('home')">Staking</button>
-            <button class="t-btn" onclick="tab('paper')">Whitepaper</button>
-        </div>
-
-        <section id="home" class="view">
-            <div class="hero-card">
-                <p>Profit Pool (10% APY)</p>
-                <h1 id="reward-counter">0.000000</h1>
-                <div class="badge-row">
-                    <span class="b-green">Live Tracking</span>
-                    <span class="b-blue">Audit Verified</span>
-                </div>
+        <section id="dashboard" class="ui-panel">
+            <div class="reward-card">
+                <p>Accumulated Profits</p>
+                <h1 id="live-earnings">0.000000</h1>
+                <div class="chip">10% APY Verified</div>
             </div>
 
             <div class="balance-grid">
-                <div class="b-box">
-                    <p>Wallet Balance</p>
-                    <h3 id="user-balance">0.00 TON</h3>
+                <div class="b-item">
+                    <p>Real Balance</p>
+                    <h4 id="real-balance">-- TON</h4>
                 </div>
-                <div class="b-box">
-                    <p>My Staked</p>
-                    <h3 id="staked-amount">0.00 TON</h3>
+                <div class="b-item">
+                    <p>My Deposit</p>
+                    <h4 id="staked-val">0.00 TON</h4>
                 </div>
             </div>
 
-            <div class="action-card">
-                <h3>Stake your TON</h3>
-                <div class="input-area">
-                    <input type="number" id="stake-input" placeholder="Min 1.2 TON">
-                    <button onclick="deposit()" class="main-btn">Stake Now</button>
-                </div>
-                <button onclick="withdraw()" class="sec-btn">Claim & Withdraw All</button>
+            <div class="action-box glass-card">
+                <h3>Start Earning</h3>
+                <input type="number" id="amt-input" placeholder="Enter amount (Min 1.2)">
+                <button onclick="stakeNow()" class="prime-btn">Stake TON Now</button>
+                <button onclick="withdrawAll()" class="alt-btn">Emergency Withdraw</button>
             </div>
         </section>
 
-        <section id="paper" class="view hidden">
-            <div class="paper-card">
-                <h2>Technical Whitepaper v2.0</h2>
-                <hr>
-                <p>The TON Stake protocol is a smart-contract driven yield optimizer. It ensures 100% liquidity through automated market makers on The Open Network.</p>
-                <h4>Security:</h4>
-                <p>Contract address is verified on TONViewer. Administrative keys are held in multi-sig cold storage.</p>
-            </div>
-        </section>
-
-        <div class="partners">
-            <p>SUPPORTED BY</p>
-            <div class="p-list">
+        <div class="partners-row">
+            <p>INTEGRATED WITH</p>
+            <div class="icon-list">
                 <span><i class="fa-brands fa-bitcoin"></i> BINANCE</span>
-                <span><i class="fa-brands fa-telegram"></i> TELEGRAM</span>
                 <span>OKX WEB3</span>
-                <span>TON FOUNDATION</span>
+                <span>TELEGRAM</span>
             </div>
         </div>
-
-        <footer>
-            <p>© 2026 TON STAKE PROTOCOL • <a href="admin.html" style="color:#222">Admin</a></p>
-        </footer>
     </div>
-
     <script src="script.js"></script>
 </body>
-                                                                                                                       </html>
-                                                                                                                       
+</html>
