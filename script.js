@@ -1,54 +1,58 @@
-// আপনার দেওয়া কন্ট্রাক্ট অ্যাড্রেস
+// আপনার স্মার্ট কন্ট্রাক্ট অ্যাড্রেস
 const CONTRACT_ADDRESS = "EQApZ3tEu5mlOtmxhC4mwKD8Bc1Pf9VtfXyfgPyCZt2lwyno";
 
-// ১. ওয়ালেট কানেক্ট সেটআপ (QR কোড ফিক্স)
+// ১. কানেকশন সেটআপ (QR Code ফিক্স করা হয়েছে)
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json',
-    buttonRootId: 'ton-connect'
+    buttonRootId: 'ton-connect-btn'
 });
 
 // ২. ভেরিয়েবল
-let isStaking = false;
-let userBalance = 0; // সিমুলেটেড ব্যালেন্স
+let walletBalance = 0; // কানেক্ট হলে আপডেট হবে (Simulated for Testnet)
+let stakedBalance = 0.0000;
 
-// ৩. কানেকশন চেক
+// ৩. ওয়ালেট কানেক্ট হলে কি হবে
 tonConnectUI.onStatusChange(wallet => {
-    const balText = document.getElementById('wallet-balance');
+    const balEl = document.getElementById('wallet-balance');
+    
     if (wallet) {
-        // কানেক্ট হলে ব্যালেন্স দেখাবে
-        userBalance = 10.5; // টেস্টনেট ব্যালেন্স (ডেমো)
-        balText.innerText = userBalance + " TON";
+        // ডেমো ব্যালেন্স (টেস্টনেটে API ছাড়া রিয়েল ব্যালেন্স আনা কঠিন, তাই ডেমো দেখাচ্ছি)
+        walletBalance = 5.5; 
+        balEl.innerText = walletBalance + " TON";
+        balEl.style.color = "#00FFA3";
+
+        const shortAddress = wallet.account.address.slice(0, 4) + '...' + wallet.account.address.slice(-4);
         
         Swal.fire({
-            toast: true, position: 'top-end', icon: 'success', 
-            title: 'Wallet Connected', showConfirmButton: false, timer: 2000,
-            background: '#1a1a1a', color: '#fff'
+            toast: true, position: 'top', icon: 'success', 
+            title: 'Connected: ' + shortAddress, 
+            showConfirmButton: false, timer: 2000,
+            background: '#111', color: '#fff'
         });
     } else {
-        balText.innerText = "--";
-        userBalance = 0;
+        balEl.innerText = "--";
+        walletBalance = 0;
     }
 });
 
-// ৪. ইনপুট কন্ট্রোল (Percentage Buttons)
-function setInput(percent) {
-    if(userBalance === 0) return;
-    const input = document.getElementById('amount-input');
-    const val = (userBalance * percent) / 100;
-    input.value = val.toFixed(2);
+// ৪. ইনপুট বাটন লজিক (25%, 50%, Max)
+function setPercent(pct) {
+    if(walletBalance === 0) return;
+    const amount = (walletBalance * pct) / 100;
+    document.getElementById('amount').value = amount.toFixed(2);
 }
 
-// ৫. STAKE ফাংশন (Deposit)
-async function stakeAssets() {
-    const amount = document.getElementById('amount-input').value;
+// ৫. ডিপোজিট ফাংশন (STAKE)
+async function deposit() {
+    const amount = document.getElementById('amount').value;
 
-    // লজিক চেক
+    // ভ্যালিডেশন চেক
     if (!amount || amount < 1.2) {
         Swal.fire({
             title: 'Invalid Amount',
-            text: 'Minimum stake amount is 1.2 TON',
+            text: 'Minimum Stake is 1.2 TON',
             icon: 'warning',
-            background: '#121212', color: '#fff', confirmButtonColor: '#00ffa3'
+            background: '#111', color: '#fff', confirmButtonColor: '#00FFA3'
         });
         return;
     }
@@ -56,52 +60,63 @@ async function stakeAssets() {
     const nanoAmount = (parseFloat(amount) * 1000000000).toString();
 
     const transaction = {
-        validUntil: Math.floor(Date.now() / 1000) + 360,
+        validUntil: Math.floor(Date.now() / 1000) + 600,
         messages: [{
             address: CONTRACT_ADDRESS,
             amount: nanoAmount,
-            payload: "te6cckEBAQEACAAADURlcG9zaXQAWl0v" // "Deposit"
+            payload: "te6cckEBAQEACAAADURlcG9zaXQAWl0v" // "Deposit" Text Payload
         }]
     };
 
     try {
         await tonConnectUI.sendTransaction(transaction);
         
-        // UI আপডেট
-        document.getElementById('staked-balance').innerText = parseFloat(amount).toFixed(4);
+        // সফল হলে UI আপডেট
+        stakedBalance += parseFloat(amount);
+        document.getElementById('staked-amount').innerText = stakedBalance.toFixed(4);
+        
         Swal.fire({
-            title: 'Staked Successfully!',
-            text: 'Your assets are now earning 120% APY',
+            title: 'Success! 🚀',
+            text: 'Assets Staked Successfully',
             icon: 'success',
-            background: '#121212', color: '#fff', confirmButtonColor: '#00ffa3'
+            background: '#111', color: '#fff', confirmButtonColor: '#00FFA3'
         });
 
     } catch (e) {
-        console.error(e);
         Swal.fire({
-            title: 'Transaction Failed',
+            title: 'Transaction Cancelled',
             icon: 'error',
-            background: '#121212', color: '#fff'
+            background: '#111', color: '#fff'
         });
     }
 }
 
-// ৬. UNSTAKE ফাংশন
-async function unstake() {
+// ৬. উইথড্র ফাংশন (UNSTAKE)
+async function withdraw() {
+    if(stakedBalance <= 0) {
+        Swal.fire({ title: 'No Staked Assets', icon: 'info', background: '#111', color: '#fff' });
+        return;
+    }
+    
     try {
         await tonConnectUI.sendTransaction({
-            validUntil: Math.floor(Date.now() / 1000) + 360,
+            validUntil: Math.floor(Date.now() / 1000) + 600,
             messages: [{
                 address: CONTRACT_ADDRESS,
                 amount: "50000000", // Gas Fee
-                payload: "te6cckEBAQEACQAADldpdGhkcmF3jXlA9w==" // "Withdraw"
+                payload: "te6cckEBAQEACQAADldpdGhkcmF3jXlA9w==" // "Withdraw" Text Payload
             }]
         });
-        document.getElementById('staked-balance').innerText = "0.0000";
-    } catch(e) {}
+
+        // ব্যালেন্স রিসেট
+        stakedBalance = 0;
+        document.getElementById('staked-amount').innerText = "0.0000";
+
+        Swal.fire({ title: 'Unstaked Successfully', icon: 'success', background: '#111', color: '#fff' });
+    } catch (e) {}
 }
 
-// ৭. CLAIM ফাংশন (Same as Withdraw for now)
+// ৭. ক্লেইম ফাংশন (উইথড্র এর মতোই কাজ করবে আপাতত)
 async function claim() {
-    unstake(); // সেইম লজিক
-            }
+    withdraw();
+}
