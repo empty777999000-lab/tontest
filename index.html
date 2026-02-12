@@ -3,70 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STAKING.IO | TON</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>STAKING.IO | TON DeFi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="app-container">
-        <header>
-            <div class="logo">STAKING.<span class="blue-text">IO</span></div>
-            <div id="ton-connect"></div>
-        </header>
+    <div class="main-wrapper">
+        <nav>
+            <div class="logo">STAKING.<span class="green">IO</span></div>
+            <div id="ton-connect-btn"></div>
+        </nav>
 
-        <div class="card stats-card">
+        <div class="card balance-card">
             <p class="label">YOUR STAKED BALANCE</p>
-            <h1 class="balance-text"><span id="staked-balance">0.0000</span> <span class="unit">TON</span></h1>
+            <h1 class="balance"><span id="staked-amount">0.0000</span> <span class="unit">TON</span></h1>
             
-            <div class="apy-badge">
+            <div class="apy-box">
                 <span class="pulse">●</span> 120% APY ACTIVE
             </div>
         </div>
 
         <div class="card action-card">
-            
-            <div class="asset-select">
-                <img src="https://ton.org/download/ton_symbol.png" width="24">
-                <span>TON (Testnet)</span>
+            <div class="asset-selector">
+                <div class="coin-info">
+                    <img src="https://ton.org/download/ton_symbol.png" alt="TON">
+                    <span>TON Coin (Testnet)</span>
+                </div>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
 
-            <div class="input-area">
-                <div class="input-header">
+            <div class="input-container">
+                <div class="row-between">
                     <span>AMOUNT TO STAKE</span>
-                    <span class="available">Available: <span id="wallet-balance">--</span></span>
+                    <span class="avail">Available: <span id="wallet-balance">--</span></span>
                 </div>
                 
-                <div class="input-box">
-                    <input type="number" id="amount-input" placeholder="0.0">
-                    <div class="percent-btns">
-                        <button onclick="setInput(25)">25%</button>
-                        <button onclick="setInput(50)">50%</button>
-                        <button onclick="setInput(100)" class="max-btn">MAX</button>
-                    </div>
+                <div class="input-row">
+                    <input type="number" id="amount" placeholder="0.0">
+                    <span class="max-badge">TON</span>
+                </div>
+
+                <div class="percent-row">
+                    <button onclick="setPercent(25)">25%</button>
+                    <button onclick="setPercent(50)">50%</button>
+                    <button onclick="setPercent(75)">75%</button>
+                    <button onclick="setPercent(100)" class="active-p">MAX</button>
                 </div>
             </div>
 
-            <button onclick="stakeAssets()" class="btn-stake">
-                STAKE ASSETS
-            </button>
+            <button onclick="deposit()" class="btn-primary">STAKE ASSETS</button>
 
-            <div class="secondary-actions">
-                <button onclick="unstake()" class="btn-outline red">UNSTAKE</button>
-                <button onclick="claim()" class="btn-outline blue">CLAIM</button>
+            <div class="btn-group">
+                <button onclick="withdraw()" class="btn-outline red">UNSTAKE</button>
+                <button onclick="claim()" class="btn-outline green-border">CLAIM REWARDS</button>
             </div>
         </div>
-
-        <footer>
-            <p>© 2026 STAKING.IO • <a href="admin.html" class="admin-link">Admin</a></p>
-        </footer>
+        
+        <p class="footer-text">Built on TON Blockchain • <a href="admin.html">Admin</a></p>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-    
