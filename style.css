@@ -1,60 +1,24 @@
-:root {
-    --blue: #0098EA;
-    --dark: #050505;
-    --glass: rgba(255, 255, 255, 0.05);
-}
+:root { --blue: #0098EA; --bg: #030303; }
+body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; margin: 0; overflow-x: hidden; }
 
-body {
-    background: var(--dark);
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    margin: 0;
-    overflow-x: hidden;
-}
+.bg-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; opacity: 0.08; }
+.spinning-ton { width: 85vw; max-width: 650px; animation: spin 45s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* Background Rotating Logo */
-.ton-bg-wrap {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    opacity: 0.1;
-}
-.rotating-logo {
-    width: 80vw;
-    max-width: 600px;
-    animation: rotate 40s linear infinite;
-}
-@keyframes rotate { 100% { transform: rotate(360deg); } }
+.main-container { max-width: 440px; margin: 0 auto; padding: 20px; }
+.glass-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+.accent { color: var(--blue); }
 
-.app-shell { max-width: 450px; margin: 0 auto; padding: 20px; }
+.reward-card { background: linear-gradient(180deg, rgba(0,152,234,0.15), transparent); border: 1px solid var(--blue); border-radius: 30px; padding: 35px; text-align: center; backdrop-filter: blur(10px); }
+.reward-card h1 { font-size: 3.2rem; margin: 10px 0; color: var(--blue); }
 
-.nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.brand { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-.blue { color: var(--blue); }
+.balance-grid { display: flex; gap: 12px; margin: 20px 0; }
+.b-item { flex: 1; background: rgba(255,255,255,0.04); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.08); }
 
-.hero-card {
-    background: linear-gradient(135deg, rgba(0,152,234,0.2), rgba(0,0,0,0));
-    border: 1px solid var(--blue);
-    border-radius: 25px;
-    padding: 30px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-}
-.hero-card h1 { font-size: 3.5rem; margin: 10px 0; color: var(--blue); text-shadow: 0 0 20px rgba(0,152,234,0.5); }
+.glass-card { background: rgba(255,255,255,0.03); padding: 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); }
+input { width: 100%; padding: 16px; border-radius: 15px; border: 1px solid #222; background: #000; color: #fff; margin-bottom: 12px; box-sizing: border-box; }
+.prime-btn { width: 100%; padding: 16px; background: var(--blue); border: none; border-radius: 15px; color: #fff; font-weight: bold; cursor: pointer; box-shadow: 0 8px 20px rgba(0,152,234,0.4); }
+.alt-btn { width: 100%; padding: 12px; background: transparent; border: 1px solid #333; color: #666; border-radius: 15px; margin-top: 10px; cursor: pointer; }
 
-.balance-grid { display: flex; gap: 15px; margin: 20px 0; }
-.b-box { flex: 1; background: var(--glass); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
-
-.action-card { background: var(--glass); padding: 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); }
-input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #333; background: #000; color: white; margin-bottom: 10px; box-sizing: border-box; }
-
-.main-btn { width: 100%; padding: 15px; background: var(--blue); border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,152,234,0.4); }
-.sec-btn { width: 100%; padding: 12px; background: transparent; border: 1px solid #444; border-radius: 12px; color: #888; margin-top: 10px; cursor: pointer; }
-
-.partners { margin-top: 40px; text-align: center; opacity: 0.4; }
-.partners p { font-size: 10px; letter-spacing: 2px; }
-.p-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 12px; font-weight: bold; }
-
-.hidden { display: none; }
-           
+.partners-row { margin-top: 50px; text-align: center; opacity: 0.4; }
+.icon-list { display: flex; justify-content: center; gap: 20px; font-size: 11px; font-weight: bold; margin-top: 10px; }
